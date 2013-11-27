@@ -2,6 +2,7 @@ package ML;
 
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 public class LinearRegression {
 
@@ -9,7 +10,7 @@ public class LinearRegression {
 	private RealMatrix y;
 	private RealMatrix theta;
 	
-	private int numIteration = 100;
+	private int numIteration = 1000;
 	private double alpha = 0.01;
 
 	public LinearRegression(RealMatrix x, RealMatrix y) {
@@ -23,6 +24,8 @@ public class LinearRegression {
 
 	
 	public void execute() {
+		
+		normalizeX();
 		int numInstances = y.getRowDimension();
 		int numFeatures = x.getColumnDimension();
 		int iteration = 0;
@@ -40,6 +43,10 @@ public class LinearRegression {
 			
 			// update theta
 			hMinusY = h.subtract(y);
+//			System.out.println("theta: " + theta);
+//			System.out.println("h: " + h);
+//			System.out.println("h - y: " + hMinusY);
+//			System.out.println("x: " + x);
 			
 			double[][] newTheta = new double[1][numFeatures];
 			for (int featureIndex = 0; featureIndex < numFeatures; featureIndex++) {
@@ -51,21 +58,42 @@ public class LinearRegression {
 				
 				newTheta[0][featureIndex] *= alpha / numInstances;
 			}
-			
+//			System.out.println(MatrixUtils.createRealMatrix(newTheta));
+//			System.out.println("theta: " + theta);
 			theta = theta.subtract(MatrixUtils.createRealMatrix(newTheta));
+//			System.out.println("new theta: " + theta);			
 			iteration++;
 		}
 		
 	}
 
-	private double getCost(RealMatrix h) {
-		double cost = 0;
+	private void normalizeX() {
 		
-		for (int instanceIndex = 0; instanceIndex < x.getRowDimension(); instanceIndex++) {
+		for (int columnIndex = 1; columnIndex < x.getColumnDimension(); columnIndex++) {
+			double[] values = x.getColumn(columnIndex);
+			DescriptiveStatistics stats = new DescriptiveStatistics(values);
+			double standardDeviation = stats.getStandardDeviation();
+			double mean = stats.getMean();
+			
+			for (int instanceIndex = 0; instanceIndex < values.length; instanceIndex++) {
+				values[instanceIndex] = (values[instanceIndex] - mean) / standardDeviation;
+			}
+			
+			x.setColumn(columnIndex, values);
+		}
+		
+	}
+
+	private double getCost(RealMatrix h) {
+		
+		double cost = 0;
+		int numInstances = x.getRowDimension();
+		
+		for (int instanceIndex = 0; instanceIndex < numInstances; instanceIndex++) {
 			cost += Math.pow(h.getEntry(instanceIndex, 0) - y.getEntry(instanceIndex, 0), 2);
 		}
 		
-		return cost / (2 * x.getRowDimension());
+		return cost / (2 * numInstances);
 	}
 
 }

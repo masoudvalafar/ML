@@ -22,11 +22,14 @@ public class Ex1 {
 		
 		RealMatrix x = InputParser.createMatrix(NUM_FEATURES, instances, 0, 1.0, 1);
 		RealMatrix y = InputParser.createMatrix(1, instances, 1, 0, 0);
-		RealMatrix theta = InputHelper.createRandomMatrix(NUM_FEATURES + 1, x.getRowDimension(), -1, 1);
+		RealMatrix theta = InputHelper.createRandomMatrix(NUM_FEATURES + 1, 1, -1, 1);
 		
 		LinearRegression linearRegression = new LinearRegression(x, y);
 		linearRegression.setInitialTheta(theta);
 		
+		System.out.println(x.getRowDimension() + " " + x.getColumnDimension() + " " + x.getEntry(1, 1));
+		System.out.println(y.getRowDimension() + " " + y.getColumnDimension());
+		System.out.println(theta.getRowDimension() + " " + theta.getColumnDimension());
 		linearRegression.execute();
 	}
 

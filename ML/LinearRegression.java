@@ -10,7 +10,7 @@ public class LinearRegression {
 	private RealMatrix y;
 	private RealMatrix theta;
 	
-	private int numIteration = 1000;
+	private int numIteration = 100;
 	private double alpha = 0.01;
 
 	public LinearRegression(RealMatrix x, RealMatrix y) {
@@ -25,12 +25,12 @@ public class LinearRegression {
 	
 	public void execute() {
 		
+		// normalizing inputs
 		normalizeX();
-		int numInstances = y.getRowDimension();
-		int numFeatures = x.getColumnDimension();
+
+		// main loop
 		int iteration = 0;
-		RealMatrix h, hMinusY;
-		
+		RealMatrix h;
 		while (iteration < numIteration) {
 			System.out.println("iteration: " + iteration);
 			
@@ -42,35 +42,39 @@ public class LinearRegression {
 			System.out.println("cost: " + cost);
 			
 			// update theta
-			hMinusY = h.subtract(y);
-//			System.out.println("theta: " + theta);
-//			System.out.println("h: " + h);
-//			System.out.println("h - y: " + hMinusY);
-//			System.out.println("x: " + x);
+			updateTheta(h);
 			
-			double[][] newTheta = new double[1][numFeatures];
-			for (int featureIndex = 0; featureIndex < numFeatures; featureIndex++) {
-				newTheta[0][featureIndex] = 0;
-				
-				for (int instanceIndex = 0; instanceIndex < numInstances; instanceIndex++) {
-					newTheta[0][featureIndex] += x.getEntry(instanceIndex, featureIndex) * hMinusY.getEntry(instanceIndex, 0);
-				}
-				
-				newTheta[0][featureIndex] *= alpha / numInstances;
-			}
-//			System.out.println(MatrixUtils.createRealMatrix(newTheta));
-//			System.out.println("theta: " + theta);
-			theta = theta.subtract(MatrixUtils.createRealMatrix(newTheta));
-//			System.out.println("new theta: " + theta);			
 			iteration++;
 		}
 		
 	}
 
+	private void updateTheta(RealMatrix h) {
+		int numFeatures = x.getColumnDimension();
+		int numInstances = y.getRowDimension();
+		
+		RealMatrix hMinusY = h.subtract(y);
+		
+		double[][] newTheta = new double[1][numFeatures];
+		for (int featureIndex = 0; featureIndex < numFeatures; featureIndex++) {
+			newTheta[0][featureIndex] = 0;
+			
+			for (int instanceIndex = 0; instanceIndex < numInstances; instanceIndex++) {
+				newTheta[0][featureIndex] += x.getEntry(instanceIndex, featureIndex) * hMinusY.getEntry(instanceIndex, 0);
+			}
+			
+			newTheta[0][featureIndex] *= alpha / numInstances;
+		}
+		
+		theta = theta.subtract(MatrixUtils.createRealMatrix(newTheta));
+	}
+
 	private void normalizeX() {
 		
 		for (int columnIndex = 1; columnIndex < x.getColumnDimension(); columnIndex++) {
+			
 			double[] values = x.getColumn(columnIndex);
+			
 			DescriptiveStatistics stats = new DescriptiveStatistics(values);
 			double standardDeviation = stats.getStandardDeviation();
 			double mean = stats.getMean();

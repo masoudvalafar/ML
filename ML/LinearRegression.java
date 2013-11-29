@@ -21,7 +21,6 @@ public class LinearRegression {
 	public void setInitialTheta(RealMatrix theta) {
 		this.theta = theta;
 	}
-
 	
 	public void execute() {
 		
@@ -38,7 +37,7 @@ public class LinearRegression {
 			h = theta.multiply(x.transpose()).transpose();
 			
 			// calculate cost
-			double cost = getCost(h);
+			double cost = calculateCost(h);
 			System.out.println("cost: " + cost);
 			
 			// update theta
@@ -88,7 +87,7 @@ public class LinearRegression {
 		
 	}
 
-	private double getCost(RealMatrix h) {
+	private double calculateCost(RealMatrix h) {
 		
 		double cost = 0;
 		int numInstances = x.getRowDimension();

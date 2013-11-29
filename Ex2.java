@@ -24,6 +24,7 @@ public class Ex2 {
 		RealMatrix theta = InputHelper.createRandomMatrix(numFeatures + 1, 1, -1, 1);
 		
 		LogisticRegression logisticRegression = new LogisticRegression(x, y);
+		logisticRegression.setInitialTheta(theta);
 		
 		logisticRegression.execute();
 	}

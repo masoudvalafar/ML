@@ -34,7 +34,10 @@ public class InputParser {
 
 			if (line == null)
 				break;
-
+			
+			if (line.length() == 0 || line.charAt(0) == '#')
+				continue;
+			
 			st = new StringTokenizer(line, delimiter);
 			ArrayList<String> instance = new ArrayList<String>();
 			while (st.hasMoreTokens()) {

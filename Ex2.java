@@ -21,7 +21,7 @@ public class Ex2 {
 		
 		RealMatrix x = InputParser.createMatrix(numFeatures, instances, 0, 1.0, 1);
 		RealMatrix y = InputParser.createMatrix(1, instances, numFeatures, 0, 0);
-		RealMatrix theta = InputHelper.createRandomMatrix(numFeatures + 1, 1, -1, 1);
+		RealMatrix theta = InputHelper.createRandomMatrix(1, numFeatures + 1, -1, 1);
 		
 		LogisticRegression logisticRegression = new LogisticRegression(x, y);
 		logisticRegression.setInitialTheta(theta);

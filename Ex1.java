@@ -44,7 +44,7 @@ public class Ex1 {
 		
 		RealMatrix x2 = InputParser.createMatrix(numFeatures, instances2, 0, 1.0, 1);
 		RealMatrix y2 = InputParser.createMatrix(1, instances2, numFeatures, 0, 0);
-		RealMatrix theta2 = InputHelper.createRandomMatrix(numFeatures + 1, 1, -1, 1);
+		RealMatrix theta2 = InputHelper.createRandomMatrix(1, numFeatures + 1, -1, 1);
 		
 		LinearRegression linearRegression2 = new LinearRegression(x2, y2);
 		linearRegression2.setInitialTheta(theta2);

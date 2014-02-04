@@ -17,6 +17,7 @@ public class NeuralNetworkAlgorithm {
 		this.y = y;
 		this.numLayers  = numNodesLayers.length;
 		
+		Delta delta = new Delta(numNodesLayers);
 		for (int counter = 0; counter < this.numLayers; counter++) {
 			this.layers.add(new Layer(numNodesLayers[counter]));
 		}
@@ -43,13 +44,18 @@ public class NeuralNetworkAlgorithm {
 					}
 				}
 				
-				// calculate error - backward
+				// calculate error - backward for each instance
 				for (int layerIndex = layers.size() - 1; layerIndex >= 0; layerIndex--) {
 					if (layerIndex == layers.size() - 1) {
 						layers.get(layerIndex).calcLastLayerError(output);
 					} else {
 						layers.get(layerIndex).calcError(layers.get(layerIndex + 1).getError());
 					}
+				}
+				
+				// add instance error to total error
+				for (int layerIndex = 0; layerIndex < layers.size(); layerIndex++) {
+					delta.update(layerIndex, layers.get(layerIndex).getError());
 				}
 			}
 			

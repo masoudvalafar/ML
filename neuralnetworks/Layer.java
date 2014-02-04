@@ -62,14 +62,14 @@ public class Layer {
 	public RealMatrix getOutput() {
 		return output;
 	}
-
+	
 	public void calcLastLayerError(RealMatrix correctOutput) {
 		error = error.add(output.subtract(correctOutput));
-		System.out.println("correctOutput:" + correctOutput);
-		System.out.println("output:" + output);
-		System.out.println("error: " + error);
-		System.out.println("output - correctoutput:" + output.subtract(correctOutput));
-		System.out.println("error: " + error);
+//		System.out.println("correctOutput:" + correctOutput);
+//		System.out.println("output:" + output);
+//		System.out.println("error: " + error);
+//		System.out.println("output - correctoutput:" + output.subtract(correctOutput));
+//		System.out.println("error: " + error);
 	}
 
 	public RealMatrix getError() {

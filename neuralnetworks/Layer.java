@@ -13,14 +13,14 @@ public class Layer {
 	private int numNodes;
 	RealMatrix w = null;
 	RealMatrix output = null;
-	RealMatrix error = null;
+	RealMatrix delta = null;
 	
 	Random random = new Random();
 	private Sigmoid sigmoid = new Sigmoid();
 
 	public Layer(int numNodes) {
 		this.numNodes = numNodes;
-		error = InputHelper.createZeroMatrix(1, numNodes);
+		delta = InputHelper.createZeroMatrix(1, numNodes);
 		output = InputHelper.createZeroMatrix(1, numNodes);
 	}
 
@@ -44,7 +44,7 @@ public class Layer {
 	private void clearResults() {
 		for (int counter = 0; counter < numNodes; counter++) {
 			this.output.setEntry(0, counter, 0);
-			this.error.setEntry(0, counter, 0);
+			this.delta.setEntry(0, counter, 0);
 		}
 		
 	}
@@ -64,25 +64,27 @@ public class Layer {
 	}
 	
 	public void calcLastLayerError(RealMatrix correctOutput) {
-		error = error.add(output.subtract(correctOutput));
-//		System.out.println("correctOutput:" + correctOutput);
-//		System.out.println("output:" + output);
-//		System.out.println("error: " + error);
-//		System.out.println("output - correctoutput:" + output.subtract(correctOutput));
-//		System.out.println("error: " + error);
+		RealMatrix tempError = output.subtract(correctOutput);
+		
+		for (int counter = 0; counter < correctOutput.getColumnDimension(); counter++) {
+			delta.setEntry(0, counter, output.getEntry(0, counter) * (1 - output.getEntry(0, counter)) * tempError.getEntry(0, counter) );
+		}
+		System.out.println("correctOutput:" + correctOutput);
+		System.out.println("output:" + output);
+		System.out.println("delta: " + delta);
 	}
 
 	public RealMatrix getError() {
-		return error;
+		return delta;
 	}
 
 	public void calcError(RealMatrix nextLayerError) {
 		for (int nodeCounter = 0; nodeCounter < numNodes; nodeCounter++) {
 			double nodeError = 0;
 			for (int index = 0; index < nextLayerError.getColumnDimension(); index++) {
-				nodeError += nextLayerError.getEntry(0, index);
+				nodeError += nextLayerError.getEntry(0, index) * w.getEntry(nodeCounter, index);
 			}
-			error.setEntry(0, nodeCounter, nodeError);
+			delta.setEntry(0, nodeCounter, output.getEntry(0, nodeCounter) * (1 - output.getEntry(0, nodeCounter)) * nodeError);
 		}
 	}
 	

@@ -10,6 +10,7 @@ public class NeuralNetworkAlgorithm {
 	private RealMatrix y;
 	private ArrayList<Layer> layers = new ArrayList<Layer>();
 	private int numLayers = 0;
+	private Delta delta;
 
 	public NeuralNetworkAlgorithm(RealMatrix x, RealMatrix y,
 			int[] numNodesLayers) {
@@ -17,7 +18,7 @@ public class NeuralNetworkAlgorithm {
 		this.y = y;
 		this.numLayers  = numNodesLayers.length;
 		
-		Delta delta = new Delta(numNodesLayers);
+		delta = new Delta(numNodesLayers);
 		for (int counter = 0; counter < this.numLayers; counter++) {
 			this.layers.add(new Layer(numNodesLayers[counter]));
 		}

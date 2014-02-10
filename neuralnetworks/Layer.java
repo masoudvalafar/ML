@@ -69,9 +69,9 @@ public class Layer {
 		for (int counter = 0; counter < correctOutput.getColumnDimension(); counter++) {
 			delta.setEntry(0, counter, output.getEntry(0, counter) * (1 - output.getEntry(0, counter)) * tempError.getEntry(0, counter) );
 		}
-		System.out.println("correctOutput:" + correctOutput);
-		System.out.println("output:" + output);
-		System.out.println("delta: " + delta);
+//		System.out.println("correctOutput:" + correctOutput);
+//		System.out.println("output:" + output);
+//		System.out.println("delta: " + delta);
 	}
 
 	public RealMatrix getError() {
@@ -85,6 +85,9 @@ public class Layer {
 				nodeError += nextLayerError.getEntry(0, index) * w.getEntry(nodeCounter, index);
 			}
 			delta.setEntry(0, nodeCounter, output.getEntry(0, nodeCounter) * (1 - output.getEntry(0, nodeCounter)) * nodeError);
+			System.out.println("nextLayerError:" + nextLayerError);
+			System.out.println("output:" + output);
+			System.out.println("delta: " + delta);
 		}
 	}
 	

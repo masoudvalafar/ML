@@ -10,7 +10,7 @@ public class NeuralNetworkAlgorithm {
 	private RealMatrix y;
 	private ArrayList<Layer> layers = new ArrayList<Layer>();
 	private int numLayers = 0;
-	private Delta delta;
+	private Delta deltas;
 
 	public NeuralNetworkAlgorithm(RealMatrix x, RealMatrix y,
 			int[] numNodesLayers) {
@@ -18,7 +18,7 @@ public class NeuralNetworkAlgorithm {
 		this.y = y;
 		this.numLayers  = numNodesLayers.length;
 		
-		delta = new Delta(numNodesLayers);
+		deltas = new Delta(numNodesLayers);
 		for (int counter = 0; counter < this.numLayers; counter++) {
 			this.layers.add(new Layer(numNodesLayers[counter]));
 		}
@@ -56,7 +56,7 @@ public class NeuralNetworkAlgorithm {
 				
 				// add instance error to total error
 				for (int layerIndex = 0; layerIndex < layers.size(); layerIndex++) {
-					delta.update(layerIndex, layers.get(layerIndex).getError());
+					deltas.update(layerIndex, layers.get(layerIndex).getError());
 				}
 			}
 			

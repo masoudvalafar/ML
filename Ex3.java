@@ -9,8 +9,8 @@ import org.apache.commons.math3.linear.RealMatrix;
 public class Ex3 {
 
 	public static void main(String[] args) {
-		String inputFileX = "data/ex3/X.txt";
-		String inputFileY = "data/ex3/y.txt";
+		String inputFileX = "src/data/ex3/X.txt";
+		String inputFileY = "src/data/ex3/y.txt";
 		String delimiter = " ";
 		
 		ArrayList<ArrayList<String>> inputX = InputParser.readFile(inputFileX , delimiter);

@@ -28,7 +28,7 @@ public class NeuralNetworkAlgorithm {
 		boolean continueRunning = true;
 		
 		// loop until converge
-		while (continueRunning ) {
+		while (continueRunning) {
 			
 			// loop on each instance
 			for (int instanceCounter = 0; instanceCounter < x.getRowDimension(); instanceCounter++) {
@@ -43,6 +43,7 @@ public class NeuralNetworkAlgorithm {
 					else {
 						layers.get(layerIndex).calculateOutput(layers.get(layerIndex - 1).getOutput());
 					}
+					System.out.println("output for layer " + layerIndex + " : " + layers.get(layerIndex).getOutput());
 				}
 				
 				// calculate error - backward for each instance
@@ -52,11 +53,11 @@ public class NeuralNetworkAlgorithm {
 					} else {
 						layers.get(layerIndex).calcError(layers.get(layerIndex + 1).getError());
 					}
-				}
-				
-				// add instance error to total error
-				for (int layerIndex = 0; layerIndex < layers.size(); layerIndex++) {
+					System.out.println("delta for layer " + layerIndex + " : " + layers.get(layerIndex).getError());
+					
+					// add instance error to total error
 					deltas.update(layerIndex, layers.get(layerIndex).getError());
+					System.out.println(deltas.getDelta(layerIndex));
 				}
 			}
 			

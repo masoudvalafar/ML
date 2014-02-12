@@ -38,7 +38,6 @@ public class Layer {
 			g = 1 / (1 + Math.pow(Math.E, -1 * preG.getEntry(0, nodeIndex)));
 			this.output.setEntry(0, nodeIndex, sigmoid.value(g));
 		}
-		
 	}
 	
 	private void clearResults() {
@@ -66,12 +65,9 @@ public class Layer {
 	public void calcLastLayerError(RealMatrix correctOutput) {
 		RealMatrix tempError = output.subtract(correctOutput);
 		
-		for (int counter = 0; counter < correctOutput.getColumnDimension(); counter++) {
-			delta.setEntry(0, counter, output.getEntry(0, counter) * (1 - output.getEntry(0, counter)) * tempError.getEntry(0, counter) );
+		for (int nodeIndex = 0; nodeIndex < correctOutput.getColumnDimension(); nodeIndex++) {
+			delta.setEntry(0, nodeIndex, output.getEntry(0, nodeIndex) * (1 - output.getEntry(0, nodeIndex)) * tempError.getEntry(0, nodeIndex) );
 		}
-//		System.out.println("correctOutput:" + correctOutput);
-//		System.out.println("output:" + output);
-//		System.out.println("delta: " + delta);
 	}
 
 	public RealMatrix getError() {
@@ -85,9 +81,6 @@ public class Layer {
 				nodeError += nextLayerError.getEntry(0, index) * w.getEntry(nodeCounter, index);
 			}
 			delta.setEntry(0, nodeCounter, output.getEntry(0, nodeCounter) * (1 - output.getEntry(0, nodeCounter)) * nodeError);
-			System.out.println("nextLayerError:" + nextLayerError);
-			System.out.println("output:" + output);
-			System.out.println("delta: " + delta);
 		}
 	}
 	

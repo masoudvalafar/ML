@@ -23,4 +23,8 @@ public class Delta {
 		}
 	}
 
+	public RealMatrix getDelta(int index) {
+		return deltas.get(index);
+	}
+
 }

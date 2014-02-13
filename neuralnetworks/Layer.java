@@ -62,6 +62,10 @@ public class Layer {
 		return output;
 	}
 	
+	public void setOuput(RealMatrix output) {
+		this.output = output; 		
+	}
+	
 	public void calcLastLayerError(RealMatrix correctOutput) {
 		RealMatrix tempError = output.subtract(correctOutput);
 		
@@ -74,16 +78,19 @@ public class Layer {
 		return delta;
 	}
 
-	public void calcError(RealMatrix nextLayerError) {
+	// weight and error come from the next layer
+	public void calcError(RealMatrix nextLayerError, RealMatrix weights) {
 		for (int nodeCounter = 0; nodeCounter < numNodes; nodeCounter++) {
 			double nodeError = 0;
 			for (int index = 0; index < nextLayerError.getColumnDimension(); index++) {
-				nodeError += nextLayerError.getEntry(0, index) * w.getEntry(nodeCounter, index);
+				nodeError += nextLayerError.getEntry(0, index) * weights.getEntry(nodeCounter, index);
 			}
 			delta.setEntry(0, nodeCounter, output.getEntry(0, nodeCounter) * (1 - output.getEntry(0, nodeCounter)) * nodeError);
 		}
 	}
-	
-	
+
+	public RealMatrix getWeight() {
+		return w;
+	}
 
 }

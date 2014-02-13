@@ -31,7 +31,7 @@ public class Ex3 {
 		RealMatrix x = InputParser.createMatrix(numFeatures, inputX);
 		RealMatrix y = InputParser.createMatrix(10, processedInputY);
 		
-		int[] numNodesLayers = {25, 10};
+		int[] numNodesLayers = {numFeatures, 25, 10};
 		
 		NeuralNetworkAlgorithm neuralNetworkAlgorithm = new NeuralNetworkAlgorithm(x, y, numNodesLayers);
 		neuralNetworkAlgorithm.run();
